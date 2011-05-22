@@ -1,0 +1,2 @@
+This repo contains a UITableViewCell category called ShrinkTo which will let
+you easily shrink any cell to another view, much like the Mail app.
