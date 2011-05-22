@@ -25,7 +25,7 @@
 
 -(void)shrinkToCenterOfView:(UIView *)targetView fromTableView:(UITableView *)theTableView withRemoveFromDataSourceBlock:(void (^)())block
 {
-    [self shrinkToPoint:targetView.center inView:targetView fromTableView:theTableView withRemoveFromDataSourceBlock:block];
+    [self shrinkToPoint:[self convertPoint:targetView.center fromView:targetView] inView:targetView fromTableView:theTableView withRemoveFromDataSourceBlock:block];
 }
 
 -(void)shrinkToPoint:(CGPoint)thePoint inView:(UIView *)targetView fromTableView:(UITableView *)theTableView withRemoveFromDataSourceBlock:(void (^)())block
