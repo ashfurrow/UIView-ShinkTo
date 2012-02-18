@@ -1,5 +1,4 @@
 ## What it is
-
 This repo contains a UIView category called ShrinkTo which will let you easily shrink any view to a point within another view, much like the iOS Mail app.
 
 [Here's a demo video.] (http://www.youtube.com/watch?v=Xak3xqGKvqc)
