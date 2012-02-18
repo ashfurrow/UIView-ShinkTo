@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "UITableViewCell+ShrinkTo.h"
-
 #define kSelectedSegmentedIndexLeft 0
 #define kSelectedSegmentedIndexRight 1
 

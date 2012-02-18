@@ -24,19 +24,25 @@
 
 
 /*
+ DEPRECATED 
+ Use UIView+ShrinkTo on the cell's contentView
+ 
  Shrinks a UITableViewCell instance to a the center of another view (like a trashcan).
  
  This method is essentially a special case of the next method.
  */
--(void)shrinkToCenterOfView:(UIView *)targetView fromTableView:(UITableView *)theTableView withRemoveFromDataSourceBlock:(void (^)())block;
+-(void)shrinkToCenterOfView:(UIView *)targetView fromTableView:(UITableView *)theTableView withRemoveFromDataSourceBlock:(void (^)())block __attribute__((deprecated));
 
 /*
+ DEPRECATED 
+ Use UIView+ShrinkTo on the cell's contentView
+ 
  Shrinks a UITableViewCell instance to a specifific point relative (inside) the targetView.
  
  The block is used to update your tableview's datasource. This may be removing an item from an NSMutableArray, calling an 
  external web service to delete the entity from the cloud, or updating a CoreData store. The issue is that the block is
  invoked *synchronoushly*, so write it accordingly.
  */
--(void)shrinkToPoint:(CGPoint)thePoint inView:(UIView *)targetView fromTableView:(UITableView *)theTableView withRemoveFromDataSourceBlock:(void (^)())block;
+-(void)shrinkToPoint:(CGPoint)thePoint inView:(UIView *)targetView fromTableView:(UITableView *)theTableView withRemoveFromDataSourceBlock:(void (^)())block __attribute__((deprecated));
 
 @end

@@ -8,6 +8,8 @@
 
 #import "RootViewController.h"
 
+#import "UIView+ShrinkTo.h"
+
 @implementation RootViewController
 
 - (void)viewDidLoad
@@ -75,24 +77,27 @@
 //This will basically flip the item from one NSMutableArray to the other (and animate that change appropriately)
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-    CGPoint toPoint = [self.tableView.superview convertPoint:segmentedControl.center fromView:self.view];
+    //we'll shift the target point to be on top of the label on the segmented control
+    CGPoint toPoint = segmentedControl.center;
     
     if (segmentedControl.selectedSegmentIndex == kSelectedSegmentedIndexRight){
         toPoint = CGPointMake(toPoint.x*0.5, toPoint.y); 
-        
-        [[tableView cellForRowAtIndexPath:indexPath] shrinkToPoint:toPoint inView:segmentedControl fromTableView:self.tableView withRemoveFromDataSourceBlock:^{
-            [leftItems insertObject:[rightItems objectAtIndex:indexPath.row] atIndex:0];
-            [rightItems removeObjectAtIndex:indexPath.row];
-        }];
+
+        [leftItems insertObject:[rightItems objectAtIndex:indexPath.row] atIndex:0];
+        [rightItems removeObjectAtIndex:indexPath.row];
     }    
     else{
         toPoint = CGPointMake(toPoint.x*1.5, toPoint.y); 
         
-        [[tableView cellForRowAtIndexPath:indexPath] shrinkToPoint:toPoint inView:segmentedControl fromTableView:self.tableView withRemoveFromDataSourceBlock:^{
-            [rightItems insertObject:[leftItems objectAtIndex:indexPath.row] atIndex:0];
-            [leftItems removeObjectAtIndex:indexPath.row];
-        }];
+        [rightItems insertObject:[leftItems objectAtIndex:indexPath.row] atIndex:0];
+        [leftItems removeObjectAtIndex:indexPath.row];
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [[[tableView cellForRowAtIndexPath:indexPath] contentView] shrinkToPoint:toPoint inView:segmentedControl];
+    
+    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
 }
 
 //So updated lists are displayed when the user selects the other side of the segmented control
