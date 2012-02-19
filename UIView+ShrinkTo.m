@@ -6,12 +6,13 @@
 //  Copyright (c) 2012 500px. All rights reserved.
 //
 
-#import "UIView+ShrinkTo.h"
+#import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
+#import "UIView+ShrinkTo.h"
 
 @implementation UIView (ShrinkTo)
 
-static NSMutableArray *queue;
+static NSString *associativeKey = @"associated NSImage";
 
 -(void)shrinkToCenterOfView:(UIView *)targetView 
 {
@@ -20,8 +21,6 @@ static NSMutableArray *queue;
 
 -(void)shrinkToPoint:(CGPoint)thePoint inView:(UIView *)theTargetView 
 {
-    if (!queue)
-        queue = [[NSMutableArray alloc] init];
     UIView *sharedSuperView = self.superview;
     while (![theTargetView isDescendantOfView:sharedSuperView])
     {
@@ -74,7 +73,7 @@ static NSMutableArray *queue;
     animGroup.delegate = self;
     [imageView.layer addAnimation:animGroup forKey:nil];
     
-    [queue insertObject:imageView atIndex:0];
+    objc_setAssociatedObject(self, &associativeKey, imageView, OBJC_ASSOCIATION_RETAIN);
 }
 
 //after we're done animating, we need to remove ourselves from the view so we don't "hang around" on the screen
@@ -82,9 +81,9 @@ static NSMutableArray *queue;
 {
     if (!flag) return;
     
-    UIImageView *imageView = [queue lastObject];
+    UIImageView *imageView = (UIImageView *)objc_getAssociatedObject(self, &associativeKey);
     [imageView removeFromSuperview];
-    [queue removeLastObject];
+    objc_setAssociatedObject(self, &associativeKey, nil, OBJC_ASSOCIATION_ASSIGN);
 }
 
 @end
